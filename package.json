@@ -1,0 +1,33 @@
+{
+  "name": "payment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "axios": "^0.19.2",
+    "config": "^3.3.1",
+    "dotenv": "^8.2.0",
+    "expandenv": "^1.0.0",
+    "express": "^4.17.1",
+    "fastify": "^3.1.1",
+    "fastify-axios": "^1.1.2",
+    "fastify-swagger": "^3.1.2",
+    "instamojo-nodejs": "0.0.5",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.24",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.4",
+    "razorpay": "^2.0.6",
+    "request": "^2.88.2",
+    "schema": "^0.2.1",
+    "shortid": "^2.2.15"
+  }
+}
