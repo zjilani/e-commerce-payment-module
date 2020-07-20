@@ -19,6 +19,13 @@ const routes = [
         handler: controllers.initiatePayment,
         schema: documentation.initiatePayment,
         preValidation: validators.validateInitiatePaymentRequest
+    },
+    {
+        method: "POST",
+        url: "/makePayment",
+        handler: controllers.makePayment,
+        schema: documentation.makePayment,
+        preValidation: validators.validateMakePaymentRequest
     }
     
 ]

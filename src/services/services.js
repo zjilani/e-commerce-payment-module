@@ -27,19 +27,19 @@ const razorpay  = async (fastify,payRequest) =>{
     });
     
     const payment_capture = 1
-        const currency = 'INR'
+    const currency = 'INR'
 
-        const options = {
-            amount,
-            currency,
-            receipt: shortid.generate(),
-            payment_capture
-        }
+    const options = {
+        amount,
+        currency,
+        receipt: shortid.generate(),
+        payment_capture
+    }
         
     try {
         
         const response = await payment.orders.create(options)
-        // console.log(response)
+        
         if(response.status === 'created'){
             const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Success"})
             
@@ -80,7 +80,35 @@ const initiatePayment = async (fastify,initiatePaymentRequest) =>{
     
 }
 
+const makePayment = async (fastify,makePaymentRequest) =>{
+    try {
+
+        const payment_capture = 1
+        const currency = 'INR'
+        const amount = makePaymentRequest.price 
+
+        const options = {
+            amount,
+            currency,
+            receipt: shortid.generate(),
+            payment_capture
+        }
+        const updateReservedInventory = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:[makePaymentRequest.variantId] , quantity:[1] , message: "Success"})
+        
+        const response = await payment.orders.create(options)
+        
+        const notify = await fastify.axios.post("http://localhost:5000/notifyCustomer",{customerId:makePaymentRequest.customerId, subject: "Your Order" , template: "bill", productName: [makePaymentRequest.productName], quantity: [1]})
+        return {response : "Done"}
+        
+    } catch (error) {
+        console.log(error)
+        return {response:"Not Found"}
+    }
+    
+}
+
 module.exports ={
     razorpay,
-    initiatePayment 
+    initiatePayment,
+    makePayment
 }
