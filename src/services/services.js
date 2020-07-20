@@ -40,7 +40,9 @@ const razorpay  = async (fastify,payRequest) =>{
         // console.log(response)
         if(response.status === 'created'){
             const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Success"})
-        
+            
+            const updateQuantity = await fastify.axios.post("http://localhost:3003/updateQuantity",{variantId:variantId})
+
             return {response: "Payment Done" }
         }
         else {
