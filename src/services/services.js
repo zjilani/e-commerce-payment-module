@@ -10,14 +10,21 @@ const payment = new Razorpay({
 })
 
 const razorpay  = async (fastify,payRequest) =>{
-    try {
-        const cart = await fastify.axios.get("http://localhost:3003/getCartInfo?customerId="+payRequest.customerId)
-        
-        let amount = 0
-        cart.data.data.forEach((p) => {
-            amount = amount+(p.price*p.quantity)
-        });
-        const payment_capture = 1
+    const cart = await fastify.axios.get("http://localhost:3003/getCartInfo?customerId="+payRequest.customerId)
+    const variantId =[]
+    const quantity=[]
+    cart.data.data.forEach((c)=>{
+        variantId.push(c.variantId)
+        quantity.push(c.quantityToBuy)
+    })
+
+    let amount = 0
+
+    cart.data.data.forEach((p) => {
+        amount = amount+(p.price*p.quantityToBuy)
+    });
+    
+    const payment_capture = 1
         const currency = 'INR'
 
         const options = {
@@ -27,13 +34,25 @@ const razorpay  = async (fastify,payRequest) =>{
             payment_capture
         }
         
-        const response = await payment.orders.create(options)
-        console.log(response)
+    try {
         
-        return response
+        const response = await payment.orders.create(options)
+        // console.log(response)
+        if(response.status === 'created'){
+            const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Success"})
+        
+            return {response: "Payment Done" }
+        }
+        else {
+            const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Cancelled"})
+        
+            return {response:"Payment Failed"}
+        }
+
         
     } catch (error) {
-        return {response:"Not Found"}
+        const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Cancelled"})
+        return {response:"ERROR"}
     }
     
 }

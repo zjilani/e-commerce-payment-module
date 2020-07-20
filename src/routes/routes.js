@@ -19,14 +19,7 @@ const routes = [
         handler: controllers.initiatePayment,
         schema: documentation.initiatePayment,
         preValidation: validators.validateInitiatePaymentRequest
-    },
-    // {
-    //     method: "POST",
-    //     url: "/updateCustomer",
-    //     handler: controllers.updateCustomer,
-    //     schema: documentation.updateCustomer,
-    //     preValidation: validators.validateUpdateCustomerRequest
-    // },
+    }
     
 ]
 

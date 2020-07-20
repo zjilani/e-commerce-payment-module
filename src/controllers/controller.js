@@ -5,14 +5,14 @@ exports.razorpay = async (req, res) => {
     try {
         
         let response = await services.razorpay(req.fastify, req.query)
-        if(response.response  === "Not Found"){
+        if(response.response  === "ERROR"){
             res.code(400)
-            throw new HttpError('failiure', 22005, "Check CustomerId")
+            throw new HttpError('failiure', 22005, "Payment Failed")
         }
 
-        return res.status(200).send({
+        return res.status(201).send({
             status: 'success',
-            data: response
+            message: 'Payment Done'
         })
     } catch (e) {
         res.code(500)

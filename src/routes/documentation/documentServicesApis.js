@@ -8,12 +8,6 @@
                             "customerId": {
                                 "type": "string"
                             }
-                            // "email":{
-                            //     "type":"string",
-                            // },
-                            // "password":{
-                            //     "type":"string",
-                            // }
                         },
                         "required": [
                             "customerId"
@@ -31,50 +25,11 @@
                                 "message": {
                                     "type": "string"
                                 },
-                                // "data": {
-                                //     "type": "object",
-                                //     "properties": {
-                                //         "customerId":{
-                                //             "type": "string",
-                                //         },
-                                //         "userName": {
-                                //             "type": "string"
-                                //         },
-                                //         "mobileNo": {
-                                //             "type": "number"
-                                //         },
-                                //         "email":{
-                                //             "type":"string",
-                                //         },
-                                //         "password": {
-                                //             "type": "string"
-                                //         },
-                                //         "markForDelete":{
-                                //             "type":"boolean",
-                                //         },
-                                //         "otpVerified": {
-                                //             "type": "boolean",
-                                //             "default":"false",
-                                //         },
-                                //         "otp": {
-                                //             "type":"string"
-                                //         }
-                                //     },
-                                //     "required": [
-                                //         "customerId",
-                                //         "userName",
-                                //         "mobileNo",
-                                //         "email",
-                                //         "password",
-                                //         "markForDelete",
-                                //         "otpVerified",
-                                //         "otp"
-                                //     ]
-                                // },
+                                
                             },
                                     "required": [
                                             "status",
-                                            // "data"
+                                            // "messaage"
                                             ]
                         }, 400: {
                             "description": 'Error response',
