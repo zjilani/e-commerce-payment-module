@@ -12,8 +12,10 @@ const payment = new Razorpay({
 const razorpay  = async (fastify,payRequest) =>{
     const cart = await fastify.axios.get("http://localhost:3003/getCartInfo?customerId="+payRequest.customerId)
     const variantId =[]
+    const productName = []
     const quantity=[]
     cart.data.data.forEach((c)=>{
+        productName.push(c.productName)
         variantId.push(c.variantId)
         quantity.push(c.quantityToBuy)
     })
@@ -42,6 +44,7 @@ const razorpay  = async (fastify,payRequest) =>{
             const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Success"})
             
             const updateQuantity = await fastify.axios.post("http://localhost:3003/updateQuantity",{variantId:variantId})
+            const notify = await fastify.axios.post("http://localhost:5000/notifyCustomer",{customerId: payRequest.customerId, subject: "Your Order" , template: "bill", productName: productName, quantity: quantity})
 
             return {response: "Payment Done" }
         }
