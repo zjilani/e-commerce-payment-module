@@ -8,20 +8,20 @@
             "server": "gmail",
             "port": 587,
             "senderName" : "Jilani",
-            "senderEmail" : "zaidjilani.09@gmail.com",
-            "username" : "zaidjilani.09@gmail.com",
-            "apiKey" : "$apiKey"
+            "senderEmail" : "$EMAIL",
+            "username" : "$EMAIL",
+            "apiKey" : "$API_KEY"
 
         }
     },
     "razorpay": {
-        "key_id": "$key_id",
-        "key_secret": "$key_secret"
+        "key_id": "$KEY_ID",
+        "key_secret": "$KEY_SECRET"
     },
     "maxPaginationSize":"20",
     "environment":"$ENVIRONMENT",
     "mongodb" : {
-        "baseURL" : "$baseURL",
+        "baseURL" : "$BASE_URL",
         "dbName" : "CUSTOMER",
         "debug" : "false",
         "username" : "$MONGODB_USER",

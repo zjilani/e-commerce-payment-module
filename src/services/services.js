@@ -41,22 +41,22 @@ const razorpay  = async (fastify,payRequest) =>{
         const response = await payment.orders.create(options)
         
         if(response.status === 'created'){
-            const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Success"})
+            const pay = await fastify.axios.post("https://jilani-e-commerce-product.herokuapp.com/reducingInventory",{variantId:variantId , quantity:quantity,message:"Success"})
             
             const updateQuantity = await fastify.axios.post("http://localhost:3003/updateQuantity",{variantId:variantId})
-            const notify = await fastify.axios.post("http://localhost:5000/notifyCustomer",{customerId: payRequest.customerId, subject: "Your Order" , template: "bill", productName: productName, quantity: quantity  ,amount:amount})
+            const notify = await fastify.axios.post("https://jilani-e-commerce-notification.herokuapp.com/notifyCustomer",{customerId: payRequest.customerId, subject: "Your Order" , template: "bill", productName: productName, quantity: quantity  ,amount:amount})
 
             return {response: "Payment Done" }
         }
         else {
-            const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Cancelled"})
+            const pay = await fastify.axios.post("https://jilani-e-commerce-product.herokuapp.com/reducingInventory",{variantId:variantId , quantity:quantity,message:"Cancelled"})
         
             return {response:"Payment Failed"}
         }
 
         
     } catch (error) {
-        const pay = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:variantId , quantity:quantity,message:"Cancelled"})
+        const pay = await fastify.axios.post("https://jilani-e-commerce-product.herokuapp.com/reducingInventory",{variantId:variantId , quantity:quantity,message:"Cancelled"})
         return {response:"ERROR"}
     }
     
@@ -71,7 +71,7 @@ const initiatePayment = async (fastify,initiatePaymentRequest) =>{
             quantity.push(c.quantityToBuy)
         })
         
-        const updateReservedInventory = await fastify.axios.post("http://localhost:3001/reducingResInventory",{variantId:variantId , quantity:quantity})
+        const updateReservedInventory = await fastify.axios.post("https://jilani-e-commerce-product.herokuapp.com/reducingResInventory",{variantId:variantId , quantity:quantity})
         return {response : "Done"}
         
     } catch (error) {
@@ -93,11 +93,11 @@ const makePayment = async (fastify,makePaymentRequest) =>{
             receipt: shortid.generate(),
             payment_capture
         }
-        const updateReservedInventory = await fastify.axios.post("http://localhost:3001/reducingInventory",{variantId:[makePaymentRequest.variantId] , quantity:[1] , message: "Success"})
+        const updateReservedInventory = await fastify.axios.post("https://jilani-e-commerce-product.herokuapp.com/reducingInventory",{variantId:[makePaymentRequest.variantId] , quantity:[1] , message: "Success"})
         
         const response = await payment.orders.create(options)
         
-        const notify = await fastify.axios.post("http://localhost:5000/notifyCustomer",{customerId:makePaymentRequest.customerId, subject: "Your Order" , template: "bill", productName: [makePaymentRequest.productName], quantity: [1] ,amount:amount})
+        const notify = await fastify.axios.post(" https://jilani-e-commerce-notification.herokuapp.com/notifyCustomer",{customerId:makePaymentRequest.customerId, subject: "Your Order" , template: "bill", productName: [makePaymentRequest.productName], quantity: [1] ,amount:amount})
         return {response : "Done"}
         
     } catch (error) {
